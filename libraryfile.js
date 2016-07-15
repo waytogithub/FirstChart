@@ -12,10 +12,7 @@ function renderChart(renderdivId,separator,width,height,chartdata) {
     this.width = width;
     this.height = height;
     this.plotdata();
-        
-    
-    
-};
+    };
 
 
 this.getMaxMin =function(obj){
@@ -39,9 +36,7 @@ this.getMaxMin =function(obj){
          return maxminobj;  
 };
 
-   
-  
-this.getlimits= function(ulimit,llimit){
+ this.getlimits= function(ulimit,llimit){
                   var ullength=ulimit.length;
                   var lllength=llimit.length;
                   if(ulimit>0){
@@ -96,7 +91,7 @@ this.placeZero= function(data,noOfZero,flag){
 };
 this.plotdata = function(){
                 var maxmin = getMaxMin(this.chartdata);
-                var max,min,newmax,newmin,limits,divisiony,divisionX,ratio;
+                var max,min,newmax,newmin,limits;
                 for(var k in maxmin){
                     max = maxmin[k].max;
                     min = maxmin[k].min;
