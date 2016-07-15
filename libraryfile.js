@@ -1,4 +1,4 @@
-function fc(renderdivId,separator,width,height,chartdata) {
+function renderChart(renderdivId,separator,width,height,chartdata) {
     this.chartdata = chartdata;
     this.renderdivId = "mydiv";
     this.separator = "|";
