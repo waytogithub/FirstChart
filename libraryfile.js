@@ -4,23 +4,21 @@ function renderChart(renderdivId,separator,width,height,chartdata) {
     this.separator = "|";
     this.width = "300";
     this.height = "400";
-    this.yaxisticks = 6;
+    this.yaxisticks = 5;
     this.xaxisticks = 5;
- 
-    this.render = function () {
-        this.chartdata = chartdata;
-        this.renderdivId = renderdivId;
-        this.separator = separator;
-        this.width = width;
-        this.height = height;
-        this.plotdata();
+    this.chartdata = chartdata;
+    this.renderdivId = renderdivId;
+    this.separator = separator;
+    this.width = width;
+    this.height = height;
+    this.plotdata();
         
-    };
     
-}
+    
+};
 
 
-this.calculateMaxMin =function(obj){
+this.getMaxMin =function(obj){
         
         var noOfGraphs = (obj.chart.yaxisname).length,
         noOfIteration=((obj.data).length),j;
@@ -110,8 +108,8 @@ this.placezeros= function(data,range,method){
         }
 };
 this.plotdata = function(){
-                var maxmin = calculateMaxMin(this.chartdata);
-                var max,min,newmax,newmin,limits,divisiony,divisionX,plotRatio;
+                var maxmin = getMaxMin(this.chartdata);
+                var max,min,newmax,newmin,limits,divisiony,divisionX,ratio;
                 for(var k in maxmin){
                     max = maxmin[k].max;
                     min = maxmin[k].min;
@@ -180,13 +178,12 @@ this.scaling= function(xaxisticks,yaxisticks,newmax,newmin,yaxisticks,xaxisticks
         var title = this.chartdata.chart.caption+" - "+this.chartdata.chartinfo.yaxisnames[item];
                     this.createText(url,svg,'50%',(25),title);
         for(var i=0;i<yaxisticks;i++){
-                    calculationY =parseInt(divisiony)*(i)+marginxy;
-                    this.createLines(url,svg,calculationY,(i)
-
-         }
-                
-        };
-         }
+                    calculationY =chartHeight-((parseInt(divisiony)*i)+newmin))+marginxy;
+                    this.createLines(url,svg,calculationY,(chartHeight+marginxy),calculationY,(chartHeight+marginxy-15));
+                    var text=this.chartdata.data[i].value[i];
+                    this.createText(url,svg,(calculationY),(chartHeight+marginxy+20),text);                    
+        }
+         };
 
     this.createLines = function(url,svg,x1,y1,x2,y2,styleStr){
         var lineXY = document.createElementNS(url, "line");
