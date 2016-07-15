@@ -41,7 +41,7 @@ this.getMaxMin =function(obj){
 
    
   
-this.createlimits= function(ul,ll){
+this.getlimits= function(ul,ll){
                   var ullength = ul.length;
                   var lllength = ll.length;
                   var cnt; 
@@ -132,14 +132,14 @@ this.plotdata = function(){
                     }else{
                         newmin = min.toString();
                     }           
-                limits = this.createlimits(newmax,newmin);
+                limits = this.getlimits(newmax,newmin);
                 newmax = limits[0]; newmin = limits[1];
                 yaxisticks= this.(parseInt(limits[0]),parseInt(limits[1]));
                 xaxisticks= this.chartdata.dataset.length; 
-                this.scaling(xaxisticks,yaxisticks,newmax,newmin,yaxisticks,xaxisticks,k);                
+                this.scaling(xaxisticks,yaxisticks,newmax,newmin,k);                
             }
 };
-this.scaling= function(xaxisticks,yaxisticks,newmax,newmin,yaxisticks,xaxisticks,item){
+this.scaling= function(xaxisticks,yaxisticks,newmax,newmin,item){
         var svgHeight = (this.height);
         var svgWidth = (this.width);
         var chartHeight=svgHeight-140;
