@@ -128,7 +128,7 @@ this.scaling= function(xaxisticks,yaxisticks,newmax,newmin,item){
         var chartWidth=svgWidth-100;
         var divisionX = (chartWidth) / xaxisticks;
         var divisiony = (chartHeight) / yaxisticks;
-        var ratio = chartHeight/(newmax-newmin); //(chartHeight) / newmax;
+        var ratio = chartHeight/(newmax-newmin); 
         var dataset="",ycord,xcord,marginxy = 50;
         var calculationX,calculationY,textColor="#000",fontSize=17;
         var i = 1;
@@ -167,13 +167,12 @@ this.scaling= function(xaxisticks,yaxisticks,newmax,newmin,item){
         }
          };
 
-    this.createLines = function(url,svg,x1,y1,x2,y2,styleStr){
+    this.createLines = function(url,svg,x1,y1,x2,y2){
         var lineXY = document.createElementNS(url, "line");
             lineXY.setAttributeNS(null, "x1",x1);
             lineXY.setAttributeNS(null, "y1",y1);
             lineXY.setAttributeNS(null, "x2",x2);
             lineXY.setAttributeNS(null, "y2",y2);
-            lineXY.setAttribute('style', styleStr);
             svg.appendChild(lineXY);
     };
     this.createCirles = function(url,svg,x,y,r,i){
@@ -181,8 +180,6 @@ this.scaling= function(xaxisticks,yaxisticks,newmax,newmin,item){
             shape.setAttributeNS(null, "cx", x);
             shape.setAttributeNS(null, "cy", y);
             shape.setAttributeNS(null, "r",  r);
-            shape.setAttributeNS(null, "onmouseover",  'showdata('+x+','+y+');');
-            shape.setAttributeNS(null, "onmouseout",  'hidedata();');
             shape.setAttributeNS(null, "id",  'circle'+i);
             shape.setAttributeNS(null, "fill", "rgba(46,139,87,0.6)");
             svg.appendChild(shape);
