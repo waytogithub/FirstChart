@@ -129,8 +129,8 @@ this.scaling= function(xaxisticks,yaxisticks,newmax,newmin,item){
         var divisionX = (chartWidth) / xaxisticks;
         var divisiony = (chartHeight) / yaxisticks;
         var ratio = chartHeight/(newmax-newmin); 
-        var dataset="",ycord,xcord,marginxy = 50;
-        var calculationX,calculationY,textColor="#000",fontSize=17;
+        var dataset="",xcord,ycord,marginxy = 20;
+        var calculationX,calculationY,textColor="#000",fontSize=15;
         var i = 1;
         for(var k in this.chartdata.data){
                 xcord= (divisionX*(parseInt(k)+1))+marginxy;
@@ -181,7 +181,7 @@ this.scaling= function(xaxisticks,yaxisticks,newmax,newmin,item){
             shape.setAttributeNS(null, "cy", y);
             shape.setAttributeNS(null, "r",  r);
             shape.setAttributeNS(null, "id",  'circle'+i);
-            shape.setAttributeNS(null, "fill", "rgba(46,139,87,0.6)");
+            shape.setAttributeNS(null, "fill", "rgba(30,100,120,0.5)");
             svg.appendChild(shape);
     };
     this.createPoly = function(url,svg,dataset){
