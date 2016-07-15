@@ -41,67 +41,54 @@ this.getMaxMin =function(obj){
 
    
   
-this.getlimits= function(ul,ll){
-                  var ullength = ul.length;
-                  var lllength = ll.length;
-                  var cnt; 
-                  
-                  
-                  if(ul[0]==0){
-                    cnt=0;
-                    for(var i=0;i<ullength;i++){
-                        if(ul[i]==0){
-                            cnt++;
-                        }
-                        else{
-                            break;
-                        }
-                    }
-                    cnt++;
+this.getlimits= function(ulimit,llimit){
+                  var ullength=ulimit.length;
+                  var lllength=llimit.length;
+                  if(ulimit>0){
+                  ulimit=ulimit.substr(0,1);
+                  ulimit=(parseInt(ulimit)+1).toString();
+                  ulimit=this.placeZero(ulimit,ullength,1);
+                  }
+                  else
+                  {   
+                      var cntZero=0;
+                      var str=ulimit.split(".")[1];
+                      for(var i=0;i<str.length;i++){
+                         if(str[i]=='0')
+                         cntZero++;
+                      }
+                       ulimit = ulimit.replace(/^0+/, '');
+                       ulimit = ulimit.substr(0,1);
+                       ulimit = (parseInt(ulimit)+1).toString();
+                       ulimit=placeZero(ulimit,cntZero,0);
+                      }
+                   if(limit>0){
+                   llimit=llimit.substr(0,1);
+                   llimit=placeZero(llimit,lllength,1);
+                   }
+                   else{
+                   cntZero=0;       
+                   var str=llimit.split(".")[1];
+                   for(var k=0;k<llength;k++){
+                       if(str[k]=='0')
+                       cntZero++;
+                   }
+                   llimit=llimit.replace(/^0+/,'');
+                   llimit=llimit.substr(0,1);
+                   llimit=placeZero(llimit,cntZero,0);
+                   }
                     
-                    }
-                    else{
-                        ul = ul.replace(/^0+/, '');
-                        ul = ul.substr(0,1);
-                        ul = (parseInt(ul)+1).toString();
-                        ul = this.placezeros(ul,cnt,0);
-                    }
-                  }
-                  else{
-                    ul = ul.substr(0,1);
-                    ul = (parseInt(ul)+1).toString();
-                    ul = this.placezeros(ul,ullength,1);
-                  }
-                  if(ll[0]==0){
-                    cnt=0;
-                    for(var i=0;i<lllength;i++){
-                        if(ll[i]==0){
-                            cnt++;
-                        }
-                        else{
-                            break;
-                        }
-                    }
-                    cnt++;
-                    ll = ll.replace(/^0+/, '');
-                    ll = ll.substr(0,1);
-                    ll = (parseInt(ll)+1).toString();
-                    ll = this.placezeros(ll,cnt,0);
-                  }else{
-                    ll = ll.substr(0,1);
-                    ll = this.placezeros(ll,lllength,1);
-                  }
-                   return [ul,ll]; 
+
 };
 
-this.placezeros= function(data,range,method){
-        if(method==0){
-            while (data.length < range) {
+this.placeZero= function(data,noOfZero,flag){
+        if(flag==0){
+            while (data.length < noOfZero) {
              data = '0'+data;
             }
             return "0."+data;
         }else{
-            while (data.length < range) {
+            while (data.length < noOfZero) {
              data =  data+'0';
             }
             return data;
