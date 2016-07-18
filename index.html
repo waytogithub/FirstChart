@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <title>JavaScript Get Json</title>
+</head>
+<body>
+  <div id="chart-container" > </div> 
+ <script type="text/javascript src="library.js" ></script>  
+ <script type="text/javascript" >
+  var xmlhttp= new XMLHttpRequest(),json;
+  xmlhttp.onreadystatechange = function(){
+  	if ( xmlhttp.readyState === 4 && xmlhttp.status === 200 ) {
+  	
+         json=JSON.parse(xmlhttp.responseText); 	
+  	 renderChart("chart-container",'|',"500","500",json); 
+  	}
+  };
+  xmlhttp.open('GET','jsonStructure.json',true);
+  xmlhttp.send();
+  </script>
+</body>
+</html>
