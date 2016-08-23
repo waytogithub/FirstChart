@@ -1,0 +1,38 @@
+{
+    "chart": {
+        "caption": "Development Chart",
+        "subCaption": "Harry's SuperMart",
+        "xAxisName": "Month",
+        "yAxisName": ["Revenues (In USD)","share(in %age)","growthrate(in %age)","salary","profit","loss"]
+       
+    
+    },
+    "data": [
+        {
+            "label": "Jan",
+            "value": ["17400","-60","96","96","5400","-60"]
+        },
+        {
+            "label": "Feb",
+            "value": ["8000","35","30","26","6400","56"]
+        },
+        {
+            "label": "Mar",
+            "value": ["14800","-42","63.2","62","9400","156"]
+        },
+        {
+            "label": "Apr",
+            "value": ["8005","-38","34","28","6400","65"]
+        },
+        {
+            "label": "May",
+            "value": ["11000","-57","24","56","7405","80"]
+        },
+        {
+            "label": "Jun",
+            "value": ["7356","-82","8","98","5740","50"]
+        }
+      ]
+    
+}
+
