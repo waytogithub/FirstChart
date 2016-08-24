@@ -1,8 +1,10 @@
 function Canvas(url){
     this.url=url;
     }
-Canvas.prototype.createSvg=function(svgWidth,svgHeight,circleXCoord,index){
-    margin=70,
+Canvas.prototype.createSvg=function(svgWidth,svgHeight,circleXCoord,ind){
+    var margin=70,
+    index=ind;
+    
     chartHeight=svgHeight-100;
     chartWidth=svgHeight-100;
     var svg = document.createElementNS(this.url, "svg");
@@ -18,27 +20,28 @@ Canvas.prototype.createSvg=function(svgWidth,svgHeight,circleXCoord,index){
     vertLine.setAttributeNS(null, "x1", -1);
     vertLine.setAttributeNS(null, "x2", -1);
     
-    svg.addEventListener('mousemove',index,function createVertLine(e){
-        if((e.clientX - svg.getBoundingClientRect().left)>=70 && (e.clientX - svg.getBoundingClientRect().left)<chartWidth+margin ){
+    svg.addEventListener('mousemove',function createVertLine(e){
+    if((e.clientX - svg.getBoundingClientRect().left)>=margin && (e.clientX - svg.getBoundingClientRect().left)<chartWidth+margin ){
         vertLine.setAttributeNS(null, "x1", e.clientX - svg.getBoundingClientRect().left);
         vertLine.setAttributeNS(null, "x2", e.clientX - svg.getBoundingClientRect().left);
         x=e.clientX - svg.getBoundingClientRect().left;
-        for(var i=0;i<circleXCoord.length;i++){    
-            if(index==circleXCoord[i].index && x==circleXCoord[i].x  ){
+        for(var i=0;i<circleXCoord.length ;i++){    
+            if( index==circleXCoord[i].index &&  x==circleXCoord[i].x ){
                var newText = document.createElementNS("http://www.w3.org/2000/svg","text");
-               newText.setAttributeNS(null,"x",circleXCoord[i].x);     
+               newText.setAttributeNS(null,"x",circleXCoord[i].x+4);     
                newText.setAttributeNS(null,"y",circleXCoord[i].y); 
-               newText.setAttributeNS(null,"font-size",13);
-               //newText.setAttributeNS(null,"text-anchor","middle");
+               newText.setAttributeNS(null,"font-size",11);
+               
                newText.setAttribute("fill", "blue");
                var textNode = document.createTextNode(circleXCoord[i].yValue);
                newText.appendChild(textNode);
                svg.appendChild(newText);
+               break;
             }
                 
         }
-        }
-            
+        
+     }       
         
     });
     svg.addEventListener('mouseout',function createVertLine(e){

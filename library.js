@@ -122,9 +122,9 @@ function scaling(chartData,xAxisTicks,yAxisTicks,chartHeight,chartWidth,max,min,
         canvas.createLines(svg,margin,margin,margin,margin+chartHeight,"stroke:#000000");
         canvas.createLines(svg,margin,chartHeight+margin,margin+chartWidth,margin+chartHeight,"stroke:#000000");
   
-        for( i = 0;i < 5;i++){
+        for( i = 0;i <yAxisTicks ;i++){
            if( (i % 2) == 0 ) 
-               canvas.createRectangle(svg,rectHeight,rectWidth,margin,chartHeight-(rectHeight*i),"green");
+               canvas.createRectangle(svg,divisionY,rectWidth,margin,chartHeight-(rectHeight*i),"green");
         }
 
         if(index == 1){
