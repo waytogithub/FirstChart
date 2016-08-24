@@ -24,7 +24,7 @@ Canvas.prototype.createSvg=function(svgWidth,svgHeight,circleXCoord,index){
         vertLine.setAttributeNS(null, "x2", e.clientX - svg.getBoundingClientRect().left);
         x=e.clientX - svg.getBoundingClientRect().left;
         for(var i=0;i<circleXCoord.length;i++){    
-            if(x==circleXCoord[i].x  ){
+            if(index==circleXCoord[i].index && x==circleXCoord[i].x  ){
                var newText = document.createElementNS("http://www.w3.org/2000/svg","text");
                newText.setAttributeNS(null,"x",circleXCoord[i].x);     
                newText.setAttributeNS(null,"y",circleXCoord[i].y); 
