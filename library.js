@@ -153,38 +153,20 @@ function scaling(chartData,xAxisTicks,yAxisTicks,chartHeight,chartWidth,max,min,
                      canvas.createText(svg,margin-25,5+margin+chartHeight-(divisionY*j),(min+(((divisionY)/ratio)*j)),"blue",11);
             }
         }
+        
         for(k=0;k<chartData.data.length;k++){
            coordinateString+=margin+divisionX*(k)+","+(margin+chartHeight-((chartData.data[k].value[index]-min)*ratio))+" ";
         }
-        //console.log(coordinateString);
+        
         canvas.createPolyLine(svg,coordinateString);
-        // var yValueArr=coordinateString.split(" ");
-        // //console.log(yValueArr.length);
-        // for(i=0;i<yValueArr.length;i++){
-        //  var xy=yValueArr[i].split(",");
-        //  console.log(xy);
-        //  var obj={};
-        //  obj.x=parseInt(xy[0]);
-        //  obj.y=xy[1];
-         
-        //  obj.yValue=(min+(parseInt(xy[1])*divisionY)).toString(); 
-         
-        // console.log(obj.yValue=(min+(parseInt(xy[1])*divisionY)).toString());
-        // circleXCoord.push(obj);
-        
-        
-        //console.log(divisionY);
+       
         for(k=0;k<chartData.data.length;k++){
-           //y=divisionY*parseInt(coordinateString);
-           
            circle= canvas.createCircle(svg, margin+divisionX*(k),(margin+chartHeight-((chartData.data[k].value[index]-min)*ratio)),3);
-           //console.log( circle.getAttribute("cx"));
-           //console.log(circle.getAttribute("cx"));
            obj = {};
            obj.index=index;
            obj.x=Math.round(+circle.getAttribute("cx"));
            obj.y=Math.round(+circle.getAttribute("cy"));
-           obj.yValue=min+(chartHeight+margin-parseInt(circle.getAttribute("cy")))/ratio;
+           obj.yValue=(min+(chartHeight+margin-parseInt(circle.getAttribute("cy")))/ratio).toFixed(2);
            circleXCoord.push(obj);
        }
        
