@@ -1,25 +1,44 @@
 function Canvas(url){
     this.url=url;
     }
-Canvas.prototype.createSvg=function(svgWidth,svgHeight,circleXCoord){
+Canvas.prototype.createSvg=function(svgWidth,svgHeight,circleXCoord,index){
+    margin=70,
+    chartHeight=svgHeight-100;
+    chartWidth=svgHeight-100;
     var svg = document.createElementNS(this.url, "svg");
     svg.setAttribute('width', svgWidth);
     svg.setAttribute('height', svgHeight);
     var vertLine= document.createElementNS("http://www.w3.org/2000/svg", "line");
     svg.appendChild(vertLine);
 
-    vertLine.setAttributeNS(null, "y1", 70);
-    vertLine.setAttributeNS(null, "y2", 270);
+    vertLine.setAttributeNS(null, "y1", margin);
+    vertLine.setAttributeNS(null, "y2", chartHeight+margin);
     vertLine.setAttributeNS(null, "class", "vertical");
     
     vertLine.setAttributeNS(null, "x1", -1);
     vertLine.setAttributeNS(null, "x2", -1);
     
-    svg.addEventListener('mousemove',function createVertLine(e){
-
+    svg.addEventListener('mousemove',index,function createVertLine(e){
+        if((e.clientX - svg.getBoundingClientRect().left)>=70 && (e.clientX - svg.getBoundingClientRect().left)<chartWidth+margin ){
         vertLine.setAttributeNS(null, "x1", e.clientX - svg.getBoundingClientRect().left);
         vertLine.setAttributeNS(null, "x2", e.clientX - svg.getBoundingClientRect().left);
-        
+        x=e.clientX - svg.getBoundingClientRect().left;
+        for(var i=0;i<circleXCoord.length;i++){    
+            if(x==circleXCoord[i].x  ){
+               var newText = document.createElementNS("http://www.w3.org/2000/svg","text");
+               newText.setAttributeNS(null,"x",circleXCoord[i].x);     
+               newText.setAttributeNS(null,"y",circleXCoord[i].y); 
+               newText.setAttributeNS(null,"font-size",13);
+               //newText.setAttributeNS(null,"text-anchor","middle");
+               newText.setAttribute("fill", "blue");
+               var textNode = document.createTextNode(circleXCoord[i].yValue);
+               newText.appendChild(textNode);
+               svg.appendChild(newText);
+            }
+                
+        }
+        }
+            
         
     });
     svg.addEventListener('mouseout',function createVertLine(e){
@@ -84,12 +103,12 @@ Canvas.prototype.createRotateText = function(svg,x,y,textVal,textColor,fontSize,
     }
 
 Canvas.prototype.createCircle = function(svg,x,y,r){
-    var shape = document.createElementNS(this.url, "circle");
-    shape.setAttribute("cx", x);
-    shape.setAttribute("cy", y);
-    shape.setAttribute("r",  r);
-    shape.setAttribute("fill", "rgb(255,255,255)");
-    shape.setAttribute('style',"stroke:#000000");
-    svg.appendChild(shape);
-    return shape;
+    var circle = document.createElementNS(this.url, "circle");
+    circle.setAttribute("cx", x);
+    circle.setAttribute("cy", y);
+    circle.setAttribute("r",  r);
+    circle.setAttribute("fill", "rgb(255,255,255)");
+    circle.setAttribute('style',"stroke:#000000");
+    svg.appendChild(circle);
+    return circle;
     }
