@@ -1,8 +1,16 @@
 .hLine{
 	stroke:#000080;
+	stroke-width:2;
 }
 .vertical{
     	
  stroke:#ff0000;   	
 
+}
+.polys{
+	stroke:#0000ff;
+	stroke-width:4;
+	fill:none;
+	opacity:0.8;
+	
 }

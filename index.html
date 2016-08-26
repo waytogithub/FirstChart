@@ -6,22 +6,19 @@
    <link  rel="stylesheet" href="style.css">
 </head>
 <body>
-  
+
   <div id="container">  </div>
+
  <script type="text/javascript" src="canvas.js"></script>
   <script type="text/javascript" src="library.js"></script>
   <script type="text/javascript"  >
   var xmlhttp= new XMLHttpRequest(),json,x,myChart;
 xmlhttp.onreadystatechange = function(){
-if ( xmlhttp.readyState ===4 && xmlhttp.status ===200 ) {
+   if ( xmlhttp.readyState ===4 && xmlhttp.status ===200 ) {
       json=JSON.parse(xmlhttp.responseText);
-      //console.log(json);
       myChart=new RenderChart(200,200,json);
-      //console.log(myChart.chartData);
       myChart.render();
-      
-
-      }
+   }
 }
   xmlhttp.open('GET','jsonStructure.json',true);
   xmlhttp.send();

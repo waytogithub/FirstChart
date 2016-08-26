@@ -4,11 +4,10 @@ function RenderChart(chartHeight,chartWidth,chartData) {
     this.chartData=chartData;
    }
 RenderChart.prototype.render=function(){
-createLimit(this.chartData,this.chartHeight,this.chartWidth);
+
+    createLimit(this.chartData,this.chartHeight,this.chartWidth);
 }
-
-
- function calculateMaxMin(chartData,noOfGraphs){
+function calculateMaxMin(chartData,noOfGraphs){
     var arrayLength=((chartData.data).length),j,
     maxminobj={},
     maxminarray=[],
@@ -37,6 +36,7 @@ createLimit(this.chartData,this.chartHeight,this.chartWidth);
     noOfGraphs = (chartData.chart.yAxisName).length,
     maxmin=calculateMaxMin(chartData,noOfGraphs),
     circleXCoord=[];
+    
     for(var i=0;i<noOfGraphs;i++){
        max=maxmin[i].max;
        min=maxmin[i].min;  
@@ -102,7 +102,7 @@ function getLimits(ul,ll){
 }
 function scaling(chartData,xAxisTicks,yAxisTicks,chartHeight,chartWidth,max,min,index,circleXCoord){
         //console.log(min);
-        var margin = 70,i,j,shape,
+        var margin = 60,i,j,shape,
         svgHeight = chartHeight+100,
         svgWidth = chartWidth+100,
         divisionX = (chartWidth) / xAxisTicks, 
@@ -113,7 +113,7 @@ function scaling(chartData,xAxisTicks,yAxisTicks,chartHeight,chartWidth,max,min,
         rectHeight=(chartHeight)/6,
         rectWidth=chartWidth,
         captionHeight=20,
-        captionWidth=10;
+        captionWidth=10,
         url = "http://www.w3.org/2000/svg",
         divId=document.getElementById("container"),
         canvas=new Canvas(url), 
@@ -124,7 +124,7 @@ function scaling(chartData,xAxisTicks,yAxisTicks,chartHeight,chartWidth,max,min,
   
         for( i = 0;i <yAxisTicks ;i++){
            if( (i % 2) == 0 ) 
-               canvas.createRectangle(svg,divisionY,rectWidth,margin,chartHeight-(rectHeight*i),"green");
+               canvas.createRectangle(svg,divisionY,rectWidth,margin,chartHeight+margin-(divisionY*(i+1)),"green");
         }
 
         if(index == 1){
@@ -157,9 +157,7 @@ function scaling(chartData,xAxisTicks,yAxisTicks,chartHeight,chartWidth,max,min,
         for(k=0;k<chartData.data.length;k++){
            coordinateString+=margin+divisionX*(k)+","+(margin+chartHeight-((chartData.data[k].value[index]-min)*ratio))+" ";
         }
-        
         canvas.createPolyLine(svg,coordinateString);
-       
         for(k=0;k<chartData.data.length;k++){
            circle= canvas.createCircle(svg, margin+divisionX*(k),(margin+chartHeight-((chartData.data[k].value[index]-min)*ratio)),3);
            obj = {};
@@ -168,6 +166,7 @@ function scaling(chartData,xAxisTicks,yAxisTicks,chartHeight,chartWidth,max,min,
            obj.y=Math.round(+circle.getAttribute("cy"));
            obj.yValue=(min+(chartHeight+margin-parseInt(circle.getAttribute("cy")))/ratio).toFixed(2);
            circleXCoord.push(obj);
-       }
-       
-}            
+        }  
+}
+
+

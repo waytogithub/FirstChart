@@ -1,18 +1,19 @@
 function Canvas(url){
     this.url=url;
     }
-Canvas.prototype.createSvg=function(svgWidth,svgHeight,circleXCoord,ind){
-    var margin=70,
-    index=ind;
-    
-    chartHeight=svgHeight-100;
-    chartWidth=svgHeight-100;
-    var svg = document.createElementNS(this.url, "svg");
+Canvas.prototype.createSvg=function(svgWidth,svgHeight,circleXCoord,indices){
+    var margin=60,
+    index=indices,
+    newText,textNode,
+    textval=[],
+    chartHeight=svgHeight-100,
+    chartWidth=svgHeight-100,
+    vertLine= document.createElementNS("http://www.w3.org/2000/svg", "line"),
+    svg = document.createElementNS(this.url, "svg");
     svg.setAttribute('width', svgWidth);
     svg.setAttribute('height', svgHeight);
-    var vertLine= document.createElementNS("http://www.w3.org/2000/svg", "line");
+    
     svg.appendChild(vertLine);
-
     vertLine.setAttributeNS(null, "y1", margin);
     vertLine.setAttributeNS(null, "y2", chartHeight+margin);
     vertLine.setAttributeNS(null, "class", "vertical");
@@ -20,36 +21,15 @@ Canvas.prototype.createSvg=function(svgWidth,svgHeight,circleXCoord,ind){
     vertLine.setAttributeNS(null, "x1", -1);
     vertLine.setAttributeNS(null, "x2", -1);
     
-    svg.addEventListener('mousemove',function createVertLine(e){
-    if((e.clientX - svg.getBoundingClientRect().left)>=margin && (e.clientX - svg.getBoundingClientRect().left)<chartWidth+margin ){
-        vertLine.setAttributeNS(null, "x1", e.clientX - svg.getBoundingClientRect().left);
-        vertLine.setAttributeNS(null, "x2", e.clientX - svg.getBoundingClientRect().left);
-        x=e.clientX - svg.getBoundingClientRect().left;
-        for(var i=0;i<circleXCoord.length ;i++){    
-            if( index==circleXCoord[i].index &&  x==circleXCoord[i].x ){
-               var newText = document.createElementNS("http://www.w3.org/2000/svg","text");
-               newText.setAttributeNS(null,"x",circleXCoord[i].x+4);     
-               newText.setAttributeNS(null,"y",circleXCoord[i].y); 
-               newText.setAttributeNS(null,"font-size",11);
-               
-               newText.setAttribute("fill", "blue");
-               var textNode = document.createTextNode(circleXCoord[i].yValue);
-               newText.appendChild(textNode);
-               svg.appendChild(newText);
-               break;
-            }
-                
-        }
-        
-     }       
-        
-    });
-    svg.addEventListener('mouseout',function createVertLine(e){
-        vertLine.setAttributeNS(null, "x1", -1);
-        vertLine.setAttributeNS(null, "x2", -1);
-    });
+    this.chartHeight=chartHeight;
+    this.margin=margin;
+    this.textval=textval;
+    this.index=indices;
+    this.circleXCoord=circleXCoord;
+    this.vertLine = vertLine;
+    this.svg = svg;
+    this.createListener();
     return svg;
-   
 }
 Canvas.prototype.createRectangle=function(svg,height,width,x,y,col){
     var rect = document.createElementNS(this.url, "rect");
@@ -64,13 +44,14 @@ Canvas.prototype.createRectangle=function(svg,height,width,x,y,col){
 
 Canvas.prototype.createPolyLine = function(svg,coordString){
     var poly = document.createElementNS(this.url, "polyline");
+    poly.setAttribute("class","polys");
     poly.setAttribute("points", coordString);
-    poly.setAttribute('style', "stroke:#004080; fill:none;stroke-width:3");
+    //poly.setAttribute('style', "stroke:#004080; fill:none;stroke-width:3");
     svg.appendChild(poly); 
     }
 
 Canvas.prototype.createLines=function(svg,x1,y1,x2,y2,style){
-	var lineXY = document.createElementNS(this.url, "line");
+    var lineXY = document.createElementNS(this.url, "line");
     lineXY.setAttribute("x1",x1);
     lineXY.setAttribute("y1",y1);
     lineXY.setAttribute("x2",x2);
@@ -115,3 +96,67 @@ Canvas.prototype.createCircle = function(svg,x,y,r){
     svg.appendChild(circle);
     return circle;
     }
+
+Canvas.prototype.createListener=function(){
+    var svg = this.svg,
+        canvasRef = this;
+
+     svg.addEventListener("mousemove", function(e) {
+        event = new CustomEvent(
+        "customMousemove", {
+                detail: {
+                    positionx: e.clientX - svg.getBoundingClientRect().left
+                }
+            }
+        );
+        document.dispatchEvent(event);
+        })
+     svg.addEventListener("mouseout", function(e) {
+        event = new CustomEvent(
+        "customMousemove", {
+                detail: {
+                    positionx: -1
+                }
+            }
+        );
+        document.dispatchEvent(event);
+     });
+     document.addEventListener("customMousemove", function(e) {
+        canvasRef.listen(e.detail.positionx);
+    });
+}
+Canvas.prototype.listen = function(x){
+    
+    var circleXCoord=this.circleXCoord,
+    vertLine = this.vertLine,
+    index=this.index,
+    textval=this.textval,
+    svg=this.svg;
+    margin=this.margin;
+    chartHeight=this.chartHeight;
+    if(x>=margin && x<=chartHeight+margin ){
+        vertLine.setAttributeNS(null, "x1", x);
+        vertLine.setAttributeNS(null, "x2", x);
+        for(var i=0;i<circleXCoord.length ;i++){    
+            if( index==circleXCoord[i].index &&  (x>=circleXCoord[i].x-1 && x<=circleXCoord[i].x+1 )){
+               if(!textval[i]){
+                 textval[i]=circleXCoord[i].yValue;
+                 newText = document.createElementNS("http://www.w3.org/2000/svg","text");
+                 newText.setAttributeNS(null,"x",circleXCoord[i].x+4);     
+                 newText.setAttributeNS(null,"y",circleXCoord[i].y); 
+                 newText.setAttributeNS(null,"font-size",11);
+                 newText.setAttribute("fill", "blue");
+                 textNode = document.createTextNode(textval[i]);
+                 newText.appendChild(textNode);
+                 svg.appendChild(newText);
+                 break;
+               }
+            }
+        }
+    }
+    else{
+        vertLine.setAttributeNS(null, "x1", -1);
+        vertLine.setAttributeNS(null, "x2", -1);
+
+    }
+}
